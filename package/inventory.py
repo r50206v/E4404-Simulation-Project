@@ -32,7 +32,6 @@ class Inventory(object):
             self.decay(current_time)
             if not self._check:
                 raise SelfDefinedException("the volume of orange is larger than our inventory size")
-            print(env.now, self.inventory)
 
 
     def refill(self, time, amount):
