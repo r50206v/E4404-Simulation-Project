@@ -20,7 +20,7 @@ class Hurricane(object):
         list of tuple: [(arrival date, damage level)]
         
         the arrival date is the time within t=0 and t=365
-        the damage level represents percentage of price change
+        the damage level represents percentage of orange selling price change
     """    
 
     link = 'https://psl.noaa.gov/data/timeseries/monthly/Hurricane/hurr.num.data'
@@ -68,9 +68,9 @@ class Hurricane(object):
     
 if __name__ == "__main__":
     x = Hurricane()
-    print(x.hurricane_simulation())
+    # print(x.hurricane_simulation())
     print(x.get_all_arrival())
 
     y = Hurricane(seed=0)
-    print(y.hurricane_simulation())
+    # print(y.hurricane_simulation())
     print(y.get_all_arrival())
