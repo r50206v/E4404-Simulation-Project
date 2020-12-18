@@ -81,18 +81,20 @@ class Inventory(object):
             return 0 
 
     
-    
-if __name__ == "__main__":
-    import simpy
-    inv = Inventory()
+    def selling(self, amount):
+        keys = list(self.inventory.keys())
+        key_index = 0
 
-    def refill_evey_ten_days(env, inv):
-        while True:
-            yield env.timeout(10)
-            # refill the orange every 10 days with 30 volume
-            inv.refill(env.now, 30)
+        while amount and self.get_current_volume() > 0:
+            first_key = keys[key_index]
 
-    env = simpy.Environment()
-    env.process(inv.inventory_process(env))
-    env.process(refill_evey_ten_days(env, inv))
-    env.run(until=365)
+            if self.inventory[first_key] > amount:
+                self.inventory[first_key] -= amount
+                amount = 0
+            else:
+                amount -= self.inventory[first_key]
+                del self.inventory[first_key]
+                key_index += 1
+
+        if amount and self.debug: 
+            print('The request is larger than our inventory level')
