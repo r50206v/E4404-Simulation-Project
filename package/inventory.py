@@ -6,12 +6,14 @@ Freshness = 100 if the orange is stored within 5 days,
 when the orange is stored over 16 days, we are not allowed to sell it.
 '''
 from collections import OrderedDict
-from exception import SelfDefinedException
+from package.exception import SelfDefinedException
+
 
 class Inventory(object):
-    def __init__(self, size=120):
+    def __init__(self, size=120, debug=False):
         self.size = size
         self.inventory = OrderedDict()
+        self.debug = debug
 
 
     def get_current_volume(self):
@@ -27,11 +29,13 @@ class Inventory(object):
 
     def inventory_process(self, env):
         while True:
-            yield env.timeout(5)
+            yield env.timeout(1)
             current_time = env.now
             self.decay(current_time)
             if not self._check:
                 raise SelfDefinedException("the volume of orange is larger than our inventory size")
+            if self.debug:
+                print(env.now, self.inventory)
 
 
     def refill(self, time, amount):
@@ -49,11 +53,12 @@ class Inventory(object):
         # FIFO: first in first out
         keys = list(self.inventory.keys())
         if len(keys) > 0:
-            first_key = keys.pop(0)
             while keys:
-                if current_time - first_key > 15 :
-                    self.inventory.popitem(last=False)
                 first_key = keys.pop(0)
+                if current_time - first_key > 15 :
+                    if self.debug:
+                        print('The orange refill at t=%.2f are decayed (over 15 days), and %.2f oranges are removed' % (first_key, self.inventory[first_key]))
+                    self.inventory.popitem(last=False)
 
 
     @staticmethod
