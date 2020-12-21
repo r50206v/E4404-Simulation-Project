@@ -20,7 +20,7 @@ class Customers(object):
 
     def demand_function(self):
         d, e, f = self.demand_attr
-        return lambda price, freshness: np.ceil(d*price + freshness*(e-price)/f)
+        return lambda price, freshness: np.ceil(d*price + freshness*e/f)
 
     
     def get_demand(self, price, freshness):
@@ -35,7 +35,7 @@ class Customers(object):
 
     def arrival_function(self):
         a, b, c = self.arrival_attr
-        return lambda t: a*(-np.sin(t*b*np.pi/365) + c)
+        return lambda t: a*(-np.sin(t*b*np.pi/365)) + c
 
     
     def get_arrival(self, T=365):
