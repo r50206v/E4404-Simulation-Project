@@ -60,7 +60,7 @@ def get_orange_price(df, return_origin=False, seed=None):
     price_change = pd.DataFrame.from_dict(price_change, orient='index', columns=['Strike'])
     df = pd.concat([df, price_change], axis=1).fillna(0)
     df['Final Price'] = df['Price'] * (1 + df['Strike'])
-    return df['Final Price'] if ~return_origin else df
+    return df['Final Price'] if not return_origin else df
 
 
 def arrival(env, params, result):
