@@ -27,11 +27,11 @@ class Inventory(object):
             return False
 
 
-    def inventory_process(self, env):
+    def inventory_process(self, env, result):
         while True:
             yield env.timeout(1)
             current_time = env.now
-            self.decay(current_time)
+            self.decay(current_time, result)
             if not self._check:
                 raise SelfDefinedException("the volume of orange is larger than our inventory size")
             if self.debug:
@@ -48,7 +48,7 @@ class Inventory(object):
             raise SelfDefinedException("the volume of orange will be larger than our inventory size")
 
 
-    def decay(self, current_time):
+    def decay(self, current_time, result):
         # throw away all items stored over 16 days
         # FIFO: first in first out
         keys = list(self.inventory.keys())
@@ -58,7 +58,8 @@ class Inventory(object):
                 if current_time - first_key > 15 :
                     if self.debug:
                         print('The orange refill at t=%.2f are decayed (over 15 days), and %.2f oranges are removed' % (first_key, self.inventory[first_key]))
-                    self.inventory.popitem(last=False)
+                    decay = self.inventory.popitem(last=False)
+                    result['decayList'].append(decay)
 
 
     @staticmethod
