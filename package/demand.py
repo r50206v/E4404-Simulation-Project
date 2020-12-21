@@ -13,6 +13,7 @@ class Customers(object):
 
     def __init__(self, seed=None, demand_attr=(-0.05, 50, 300), arrival_attr=(30, 2, 2)):
         self.seed = seed
+        self.random_state = np.random.RandomState(seed=seed)
         self.demand_attr = demand_attr
         self.arrival_attr = arrival_attr
 
@@ -36,17 +37,16 @@ class Customers(object):
 
     
     def get_arrival(self, T=365):
-        random_state = np.random.RandomState(self.seed)
         all_time = np.linspace(0, T, 1000)
         arrival_func = self.arrival_function()
         max_lambda = max(arrival_func(all_time))
 
-        t = -1 / max_lambda * np.log(random_state.rand())
+        t = -1 / max_lambda * np.log(self.random_state.rand())
         arrival_time = []
         while t < T:
-            if random_state.rand() < arrival_func(t) / max_lambda:
+            if self.random_state.rand() < arrival_func(t) / max_lambda:
                 arrival_time.append(t)
-            inter_arrival = -1/max_lambda * np.log(random_state.rand())
+            inter_arrival = -1/max_lambda * np.log(self.random_state.rand())
             t += inter_arrival
         
         return arrival_time
