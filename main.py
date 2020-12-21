@@ -2,6 +2,7 @@ import simpy
 import collections
 import numpy as np
 import pandas as pd
+import scipy.stats as spst
 
 from package import demand, pricing, inventory, hurricane
 
@@ -186,3 +187,16 @@ def getAverageResult(*result_dict):
     result['avgDecayUnits'] = np.mean(result['DecayUnits'])
         
     return result
+
+
+def calculateConfidenceInterval(nums, names="", alpha=0.05, round_digit=3):
+    mean = np.mean(nums)
+    std = np.std(nums, ddof=1)
+    z_score = spst.norm.ppf(1 - alpha/2)
+    N = len(nums)
+    
+    lower = mean - z_score * std / N**0.5
+    upper = mean + z_score * std / N**0.5
+    print(
+        '%s %.2f confidence interval: (%s, %s)' % (names, 1 - alpha, round(lower, round_digit), round(upper, round_digit))
+    )
