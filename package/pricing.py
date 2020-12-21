@@ -11,14 +11,14 @@ class Price(object):
         self.max_price = max_price
 
 
-    def constant_price(self, constant_price=None):
+    def constant_price(self, constant_price=None, *args, **kwargs):
         if constant_price:
             return constant_price
         else:
             return self.max_price * 2/3
 
 
-    def linear_price(self, current_inventory, a=-0.25):
+    def linear_price(self, current_inventory, a=-0.25, *args, **kwargs):
         return a*current_inventory + self.max_price
 
 
