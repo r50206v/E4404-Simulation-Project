@@ -24,11 +24,13 @@ class Customers(object):
 
     
     def get_demand(self, price, freshness):
-        random_state = np.random.RandomState(seed=self.seed)
         max_demand = self.demand_function()(price, freshness)
         max_demand = max_demand * (max_demand > 0)
-        demand = random_state.randint(0, max_demand)
-        return demand
+        if max_demand == 0:
+            return 0
+        else: 
+            demand = self.random_state.randint(0, max_demand)
+            return demand
 
 
     def arrival_function(self):
