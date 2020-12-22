@@ -87,7 +87,7 @@ def arrival(env, params, result):
         current_inventory_level = params['inventory_class'].get_current_volume()
 
         # storing results
-        result['profitList'].append(
+        result['revenueList'].append(
             min(current_demand, current_inventory_level) * current_price
         )
         result['freshList'].append(current_freshness)
@@ -166,9 +166,9 @@ def getAverageResult(*result_dict):
     count = len(result_dict)
     
     for r in result_dict:
-        result['Profit'].append( sum(r['profitList']) )
+        result['Revenue'].append( sum(r['revenueList']) )
         result['Cost'].append( sum(r['costList']) )
-        result['Revenue'].append( sum(r['profitList']) - sum(r['costList']) )
+        result['Profit'].append( sum(r['revenueList']) - sum(r['costList']) )
         result['CustomerZeroDemand'].append( sum(np.array(r['demandList']) == 0) / len(r['demandList']) )
         result['ZeroInventoryLevel'].append( sum(np.array(r['inventoryVolumeList']) == 0 ) / len(r['inventoryVolumeList']) )
         result['RefillTimes'].append( len(r['refillTimeList']) )
