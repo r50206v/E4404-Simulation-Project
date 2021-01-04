@@ -38,9 +38,13 @@ def get_all_default_parameters():
     'arrival_attr': arrival_attr, 'total_day': total_day}
 
 
-def load_orange_price(divid=2, round_float=2):
+def load_orange_price(string=None, divid=2, round_float=2):
     # return processed orange future data
-    data = pd.read_csv('Orange Juice Futures Historical Data.csv')
+    if string:
+        from io import StringIO
+        data = pd.read_csv(StringIO(string))
+    else:
+        data = pd.read_csv('Orange Juice Futures Historical Data.csv')
     data.index = pd.to_datetime(data['Date'], format='%b %d, %Y')
     data = data.sort_index()
     orange_price = data['Price'].resample('1D').ffill().div(divid).round(round_float)
