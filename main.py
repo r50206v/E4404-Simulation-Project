@@ -96,6 +96,7 @@ def arrival(env, params, result):
         )
         result['freshList'].append(current_freshness)
         result['demandList'].append(current_demand)
+        result['curr_priceList'].append(current_price)
         result['inventoryVolumeList'].append(current_inventory_level)
         result['fulfillList'].append(current_demand < current_inventory_level)
         
@@ -173,6 +174,8 @@ def getAverageResult(*result_dict):
         result['Revenue'].append( sum(r['revenueList']) )
         result['Cost'].append( sum(r['costList']) )
         result['Profit'].append( sum(r['revenueList']) - sum(r['costList']) )
+        result['SellingPrice'].append(r['curr_priceList'])
+        result['DailyDemand'].append(r['demandList'])
         result['CustomerZeroDemand'].append( sum(np.array(r['demandList']) == 0) / len(r['demandList']) )
         result['ZeroInventoryLevel'].append( sum(np.array(r['inventoryVolumeList']) == 0 ) / len(r['inventoryVolumeList']) )
         result['RefillTimes'].append( len(r['refillTimeList']) )
