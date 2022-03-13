@@ -1,9 +1,6 @@
 # E4404-Simulation-Project
 Simulation Project: Inventory Memanagement and Dynamic Pricing Strategy
 
-### Contributors:
-Mengying Li, Xianyin Yin, Zhice Zhang, Yi-Ping Tseng
-
 ### Project Goals:
 1. Client wants to know how the hurricane would influence its profit by analyzing its frequency and scale(1,2,3,4,5);
 2. Client wants to see how the daily orange juice price change would be next year according to history data;
